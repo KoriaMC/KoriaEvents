@@ -31,10 +31,16 @@ jobs:
       # Repo privé : il faut le secret KORIA_CI_TOKEN (jeton en lecture sur KoriaMC/KoriaFactions).
       - name: Vérifier l'accès à KoriaFactions
         env:
-          TOKEN: ${{ secrets.KORIA_CI_TOKEN }}
+          GH_TOKEN: ${{ secrets.KORIA_CI_TOKEN }}
         run: |
-          if [ -z "$TOKEN" ]; then
+          if [ -z "$GH_TOKEN" ]; then
             echo "::error::Secret KORIA_CI_TOKEN manquant : ce plugin dépend de KoriaFactions (repo privé)."
+            exit 1
+          fi
+          if ! gh api repos/KoriaMC/KoriaFactions --jq .full_name; then
+            echo "::error::Le jeton KORIA_CI_TOKEN ne voit pas KoriaMC/KoriaFactions."
+            echo "Compte du jeton : $(gh api user --jq .login 2>&1)"
+            echo "Repos KoriaMC visibles : $(gh api 'orgs/KoriaMC/repos?type=all&per_page=100' --jq '[.[].name] | join(", ")' 2>&1)"
             exit 1
           fi
 

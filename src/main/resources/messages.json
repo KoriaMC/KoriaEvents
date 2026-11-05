@@ -1,0 +1,79 @@
+{
+  "prefix": "&8[&6Event&8] ",
+  "evenement": {
+    "victoire": [
+      "[title]&6&lVICTOIRE !;;&e{faction} &7remporte {evenement}",
+      "{prefix}&6La faction &e{faction} &6remporte {evenement} &6grâce à &e{joueur} &6! &7(+{points} points)"
+    ],
+    "sans-vainqueur": "{prefix}{evenement} &7se termine sans vainqueur.",
+    "annule": "{prefix}{evenement} &7a été annulé.",
+    "podium-entete": "{prefix}&6Résultats de {evenement} &6:",
+    "podium-ligne": "&6 #{rang} &e{faction} &7- {score} &8(+{points} points)",
+    "top-entree": "&6#{rang} &e{faction} &f{score}",
+    "top-vide": "&7Aucune faction n'a encore marqué"
+  },
+  "drapeau": {
+    "debut": [
+      "{prefix}{evenement} &7commence ! Le drapeau est en &f{depart}&7.",
+      "{prefix}&7Amenez-le en &f{arrivee} &7en moins de &f{minutes} min &7pour gagner."
+    ],
+    "sans-faction": "{prefix}&cIl faut une faction pour prendre le drapeau.",
+    "ramasse": "{prefix}&e{joueur} &7(&e{faction}&7) a pris le drapeau ! Arrivée : &f{arrivee}",
+    "porteur": "[title]&c&lVOUS AVEZ LE DRAPEAU;;&7Allez en &f{arrivee} &7(boussole) en {secondes} s",
+    "barre": "[actionbar]&c&lDrapeau &8» &7temps restant &f{temps} &8| &7arrivée à &f{distance} &7blocs",
+    "porteur-mort": "{prefix}&e{joueur} &7est mort : le drapeau retourne au départ !",
+    "perdu": "{prefix}&7Le porteur a disparu : le drapeau retourne au départ.",
+    "temps-ecoule": "{prefix}&e{joueur} &7n'a pas déposé le drapeau à temps : il retourne au départ.",
+    "punch-interdit": "{prefix}&cLe porteur du drapeau ne peut pas utiliser d'arc Punch.",
+    "teleportation-interdite": "{prefix}&cLe porteur du drapeau ne peut pas se téléporter."
+  },
+  "farm": {
+    "debut": [
+      "{prefix}{evenement} &7commence ! Ressource : {ressource}&7.",
+      "{prefix}&7Récoltez-en le plus possible en faction pendant &f{minutes} minutes&7."
+    ],
+    "barre": "[actionbar]&a&lFarm &8» {ressource} &8| &f{temps} &8| {top}"
+  },
+  "peche": {
+    "debut": "{prefix}{evenement} &7commence ! Pêchez le plus de poissons en faction pendant &f{minutes} minutes&7.",
+    "barre": "[actionbar]&b&lPêche &8» &f{temps} &8| {top}"
+  },
+  "warzone": {
+    "perle-cooldown": "{prefix}&cPerle de l'Ender disponible dans &f{secondes} s &cen Warzone.",
+    "teleportation-interdite": "{prefix}&cImpossible de se téléporter dans la Warzone : il faut y aller à pied."
+  },
+  "pnj": {
+    "nom-demande": "&7- {restant} {medicament}",
+    "demande": "{prefix}{pnj} &7cherche &f{restant} &7médicaments {medicament}&7. Stock : &6{stock} points&7.",
+    "vente": "{prefix}&aVous avez vendu &f{quantite} &amédicaments {medicament} &a: &6+{points} points &apour votre faction.",
+    "demande-terminee": "{prefix}{pnj} &7n'a plus besoin de rien. Revenez plus tard !",
+    "demande-completee": "{prefix}&e{faction} &7a complété la demande de {pnj}&7.",
+    "sans-faction": "{prefix}&cIl faut une faction pour vendre des médicaments.",
+    "renouvellement": "{prefix}&7Les pharmaciens ont de nouvelles demandes de médicaments !",
+    "deplacement": "{prefix}{pnj} &7a changé de position dans la Warzone !",
+    "info": "&8» {pnj} &7en &f{position} &7: {restant} {medicament} &8(stock {stock})"
+  },
+  "erreurs": {
+    "deja-lance": "{prefix}&c{evenement} &cest déjà en cours.",
+    "desactive": "{prefix}&c{evenement} &cest désactivé dans config.json.",
+    "drapeau-positions": "{prefix}&cDéfinissez le départ et l'arrivée : /event drapeau depart|arrivee",
+    "farm-sans-ressource": "{prefix}&cAucune ressource valide dans evenements.farm.ressources."
+  },
+  "commande": {
+    "aide": [
+      "&6/event list &7: évènements",
+      "&c/event start|stop <drapeau|farm|peche>",
+      "&c/event drapeau <depart|arrivee> &7: position actuelle",
+      "&c/event pnj [spawn|ajouter-warzone] &7: positions des PNJ de médicaments",
+      "&c/event reload"
+    ],
+    "liste": "&8» &f{id} &7: {evenement}",
+    "liste-en-cours": "&8» &f{id} &7: {evenement} &a(en cours, {temps} min restantes)",
+    "permission": "{prefix}&cVous n'avez pas la permission.",
+    "inconnu": "{prefix}&cÉvènement inconnu. Évènements : &f{ids}",
+    "lance": "{prefix}&a{evenement} &alancé.",
+    "arrete": "{prefix}&7{evenement} &7arrêté.",
+    "recharge": "{prefix}&aConfiguration rechargée ({problemes} problème(s)).",
+    "position-enregistree": "{prefix}&aPosition enregistrée : &f{cle}"
+  }
+}

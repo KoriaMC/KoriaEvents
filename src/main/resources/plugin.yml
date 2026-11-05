@@ -1,0 +1,21 @@
+name: KoriaEvents
+version: ${project.version}
+main: fr.koriamc.events.KoriaEvents
+author: KoriaMC
+description: ${project.description}
+depend: [KoriaFactions]
+softdepend: [KoriaQuest, KoriaKrebbs]
+
+commands:
+  event:
+    description: Évènements (drapeau, farm, pêche) et PNJ de médicaments
+    aliases: [events, evenement]
+    usage: /event [list|start|stop|drapeau|pnj|reload]
+
+permissions:
+  koriaevents.admin:
+    description: Lancer, arrêter et configurer les évènements
+    default: op
+  koriaevents.warzone.bypass:
+    description: Peut se téléporter dans la Warzone
+    default: op

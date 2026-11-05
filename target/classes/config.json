@@ -1,0 +1,77 @@
+{
+  "fuseau": "Europe/Paris",
+  "evenements": {
+    "drapeau": {
+      "actif": true,
+      "nom": "&c&lCapture du Drapeau",
+      "depart": "",
+      "arrivee": "",
+      "rayon-arrivee": 2,
+      "duree-port-secondes": 300,
+      "duree-minutes": 30,
+      "porteur-teleportation-interdite": true,
+      "points": 2000,
+      "planning": { "actif": false, "jours": ["VENDREDI"], "heures": ["21:00"] }
+    },
+    "farm": {
+      "actif": true,
+      "nom": "&a&lEvent Farm",
+      "duree-minutes": 20,
+      "points-top": [500, 300, 100],
+      "ressources": {
+        "CROPS": { "nom": "&eBlé" },
+        "CARROT": { "nom": "&6Carottes" },
+        "POTATO": { "nom": "&ePommes de terre" },
+        "NETHER_WARTS": { "nom": "&cVerrues du Nether" },
+        "MELON_BLOCK": { "nom": "&aPastèques" },
+        "PUMPKIN": { "nom": "&6Citrouilles" },
+        "SUGAR_CANE_BLOCK": { "nom": "&aCannes à sucre" }
+      },
+      "planning": { "actif": false, "jours": ["LUNDI", "JEUDI"], "heures": ["19:00"] }
+    },
+    "peche": {
+      "actif": true,
+      "nom": "&b&lConcours de Pêche",
+      "duree-minutes": 15,
+      "points-top": [750, 500, 250],
+      "planning": { "actif": false, "jours": ["MARDI", "DIMANCHE"], "heures": ["18:00"] }
+    }
+  },
+  "warzone": {
+    "actif": true,
+    "cooldown-perles-secondes": 30,
+    "explosions": false,
+    "teleportation-entrante": false
+  },
+  "pnj-medicaments": {
+    "actif": true,
+    "renouvellement-minutes": 30,
+    "quantite": [256, 1024],
+    "medicaments": {
+      "MEDICAMENT_BLEU": "&9bleus",
+      "MEDICAMENT_ROUGE": "&crouges",
+      "MEDICAMENT_JAUNE": "&ejaunes",
+      "MEDICAMENT_VERT": "&averts",
+      "MEDICAMENT_ORANGE": "&6orange",
+      "MEDICAMENT_MARRON": "&6marron",
+      "MEDICAMENT_ROSE": "&droses",
+      "MEDICAMENT_GRIS": "&7gris",
+      "MEDICAMENT_VIOLET": "&5violets",
+      "MEDICAMENT_NOIR": "&8noirs",
+      "MEDICAMENT_BLANC": "&fblancs"
+    },
+    "spawn": {
+      "actif": true,
+      "nom": "&d&lPharmacien",
+      "position": "",
+      "stock-points": [250, 350]
+    },
+    "warzone": {
+      "actif": true,
+      "nom": "&c&lPharmacien de la Warzone",
+      "positions": [],
+      "deplacement-minutes": 10,
+      "stock-points": [350, 450]
+    }
+  }
+}

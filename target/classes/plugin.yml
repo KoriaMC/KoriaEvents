@@ -1,0 +1,21 @@
+name: KoriaEvents
+version: 1.0.0
+main: fr.koriamc.events.KoriaEvents
+author: KoriaMC
+description: Évènements KoriaMC : capture du drapeau, farm, concours de pêche, Warzone et PNJ de médicaments (Spigot 1.8.8)
+depend: [KoriaFactions]
+softdepend: [KoriaQuest, KoriaKrebbs]
+
+commands:
+  event:
+    description: Évènements (drapeau, farm, pêche) et PNJ de médicaments
+    aliases: [events, evenement]
+    usage: /event [list|start|stop|drapeau|pnj|reload]
+
+permissions:
+  koriaevents.admin:
+    description: Lancer, arrêter et configurer les évènements
+    default: op
+  koriaevents.warzone.bypass:
+    description: Peut se téléporter dans la Warzone
+    default: op

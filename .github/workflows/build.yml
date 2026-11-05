@@ -1,0 +1,104 @@
+# CI/CD KoriaEvents : compile le plugin à chaque push / pull request et publie les .jar.
+#  - chaque build : les .jar sont dans l'onglet Actions (artefact "KoriaEvents")
+#  - push sur la branche par défaut : release "latest" mise à jour avec le .jar
+#  - tag v* (ex. v1.2.0) : release versionnée avec le .jar
+name: Build
+
+on:
+  push:
+    branches: ['**']
+    tags: ['v*']
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Récupérer KoriaEvents
+        uses: actions/checkout@v4
+        with:
+          path: KoriaEvents
+
+      # KoriaFactions est une dépendance de compilation (pom.xml : ../KoriaFactions/target).
+      # Repo privé : il faut le secret KORIA_CI_TOKEN (jeton en lecture sur KoriaMC/KoriaFactions).
+      - name: Vérifier l'accès à KoriaFactions
+        env:
+          TOKEN: ${{ secrets.KORIA_CI_TOKEN }}
+        run: |
+          if [ -z "$TOKEN" ]; then
+            echo "::error::Secret KORIA_CI_TOKEN manquant : ce plugin dépend de KoriaFactions (repo privé)."
+            exit 1
+          fi
+
+      - name: Récupérer KoriaFactions (même branche si elle existe)
+        id: factions-branch
+        continue-on-error: true
+        uses: actions/checkout@v4
+        with:
+          repository: KoriaMC/KoriaFactions
+          ref: ${{ github.head_ref || github.ref_name }}
+          token: ${{ secrets.KORIA_CI_TOKEN }}
+          path: KoriaFactions
+
+      - name: Récupérer KoriaFactions (branche par défaut)
+        if: steps.factions-branch.outcome == 'failure'
+        uses: actions/checkout@v4
+        with:
+          repository: KoriaMC/KoriaFactions
+          token: ${{ secrets.KORIA_CI_TOKEN }}
+          path: KoriaFactions
+
+      - name: Compiler KoriaFactions
+        run: mvn -B -ntp -q clean package -DskipTests
+        working-directory: KoriaFactions
+
+      - name: Java 8
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '8'
+          cache: maven
+          cache-dependency-path: KoriaEvents/pom.xml
+
+      - name: Compiler KoriaEvents
+        run: mvn -B -ntp clean package -DskipTests
+        working-directory: KoriaEvents
+
+      - name: Préparer les .jar
+        run: |
+          mkdir -p dist
+          find KoriaEvents/target -maxdepth 1 -name '*.jar' ! -name 'original-*' -exec cp {} dist/ \;
+          ls -l dist
+
+      - name: Artefact
+        uses: actions/upload-artifact@v4
+        with:
+          name: KoriaEvents
+          path: dist/*.jar
+          if-no-files-found: error
+
+      - name: Release "latest" (branche par défaut)
+        if: github.event_name == 'push' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          gh release delete latest --yes --cleanup-tag || true
+          gh release create latest dist/*.jar --target "$GITHUB_SHA" --latest \
+            --title "KoriaEvents - dernière version" \
+            --notes "Build automatique de la branche $GITHUB_REF_NAME (commit ${GITHUB_SHA::7})."
+
+      - name: Release versionnée (tag v*)
+        if: startsWith(github.ref, 'refs/tags/v')
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: gh release create "$GITHUB_REF_NAME" dist/*.jar --title "KoriaEvents $GITHUB_REF_NAME" --generate-notes

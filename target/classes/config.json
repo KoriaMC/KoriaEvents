@@ -40,7 +40,6 @@
   "warzone": {
     "actif": true,
     "cooldown-perles-secondes": 30,
-    "explosions": false,
     "teleportation-entrante": false
   },
   "pnj-medicaments": {

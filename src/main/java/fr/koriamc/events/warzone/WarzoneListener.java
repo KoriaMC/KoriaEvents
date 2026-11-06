@@ -8,9 +8,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockExplodeEvent;
-import org.bukkit.event.entity.EntityExplodeEvent;
-import org.bukkit.event.entity.ExplosionPrimeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
@@ -20,8 +17,9 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
- * Règles de la Warzone (territoire WARZONE de KoriaFactions) :
- * délai entre deux perles de l'Ender, aucune explosion, aucune téléportation vers la zone.
+ * Règles de la Warzone (territoire WARZONE de KoriaFactions) : délai entre deux perles de
+ * l'Ender et aucune téléportation vers la zone. Les explosions y sont interdites par
+ * KoriaFactions (territoire.json : explosions.warzone).
  */
 public final class WarzoneListener implements Listener {
 
@@ -30,7 +28,6 @@ public final class WarzoneListener implements Listener {
 
     private boolean enabled;
     private int pearlSeconds;
-    private boolean noExplosions;
     private boolean noTeleportIn;
 
     public WarzoneListener(KoriaEvents plugin) {
@@ -40,7 +37,6 @@ public final class WarzoneListener implements Listener {
     public void load(ConfigurationSection c) {
         enabled = c != null && c.getBoolean("actif", true);
         pearlSeconds = c == null ? 30 : Math.max(0, c.getInt("cooldown-perles-secondes", 30));
-        noExplosions = c == null || !c.getBoolean("explosions", false);
         noTeleportIn = c == null || !c.getBoolean("teleportation-entrante", false);
     }
 
@@ -63,29 +59,6 @@ public final class WarzoneListener implements Listener {
             return;
         }
         lastPearl.put(player.getUniqueId(), now);
-    }
-
-    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-    public void onPrime(ExplosionPrimeEvent event) {
-        if (enabled && noExplosions && plugin.factions().isWarZone(event.getEntity().getLocation())) {
-            event.setCancelled(true);
-        }
-    }
-
-    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-    public void onExplode(EntityExplodeEvent event) {
-        if (enabled && noExplosions && plugin.factions().isWarZone(event.getLocation())) {
-            event.blockList().clear();
-            event.setCancelled(true);
-        }
-    }
-
-    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-    public void onBlockExplode(BlockExplodeEvent event) {
-        if (enabled && noExplosions && plugin.factions().isWarZone(event.getBlock().getLocation())) {
-            event.blockList().clear();
-            event.setCancelled(true);
-        }
     }
 
     /** Aucune téléportation vers la Warzone : il faut y aller à pied (les perles restent permises). */

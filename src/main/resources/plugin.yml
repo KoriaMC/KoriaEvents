@@ -2,7 +2,7 @@ name: KoriaEvents
 version: ${project.version}
 main: fr.koriamc.events.KoriaEvents
 author: KoriaMC
-description: ${project.description}
+description: "${project.description}"
 depend: [KoriaFactions]
 softdepend: [KoriaQuest, KoriaKrebbs]
 
